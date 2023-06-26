@@ -7,7 +7,7 @@ int main () {
     // int res = s21_abs(a);
     // printf("%d\n", res);
 
-    double b = 0.5;
+    double b = 30;
     double res = s21_exp(b);
     printf("%lf\n", res);
     printf("%lf\n", exp(b));
