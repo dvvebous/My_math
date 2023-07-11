@@ -1,16 +1,16 @@
 #include <stdio.h>
 #include "s21_math.h"
 #include <math.h>
+#include <stdlib.h>
 
 int main () {
-    // int a = 0;
-    // int res = s21_abs(a);
-    // printf("%d\n", res);
 
-    double b = 30;
-    double res = s21_exp(b);
-    printf("%lf\n", res);
-    printf("%lf\n", exp(b));
+
+    int b = -3;
+    int pes = abs(b);
+    int res = s21_abs(b);
+    printf("%d\n", res);
+    printf("%d\n", pes);
 
     return 0;
 }
