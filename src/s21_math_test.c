@@ -120,10 +120,15 @@ START_TEST(s21_sin_test) {
 }
 END_TEST
 
-// START_TEST(s21_sqrt_test) {
-
-// }
-// END_TEST
+START_TEST(s21_sqrt_test) {
+    ck_assert_float_eq(sqrt(0.0), s21_sqrt(0.0));
+    ck_assert_float_eq(sqrt(1.0), s21_sqrt(1.0));
+    ck_assert_float_eq(sqrt(3.14), s21_sqrt(3.14));
+    ck_assert_float_eq(sqrt(6.28), s21_sqrt(6.28));
+    ck_assert_float_eq(sqrt(2.2343), s21_sqrt(2.2343));
+    ck_assert_int_eq(sqrt(-123), s21_sqrt(-123));
+}
+END_TEST
 
 // START_TEST(s21_tan_test) {
 
@@ -145,6 +150,7 @@ Suite *lib_suite(void) {
     TCase *tc_exp;
     TCase *tc_sin;
     TCase *tc_floor;  
+    TCase *tc_sqrt;
 
     tc_abs = tcase_create("S21_ABS");
     // tc_acos = tcase_create("S21_ACOS");
@@ -159,7 +165,7 @@ Suite *lib_suite(void) {
     tc_log = tcase_create("S21_LOG");
     tc_pow = tcase_create("S21_POW");
     tc_sin = tcase_create("S21_SIN");
-    // tc_sqrt = tcase_create("S21_SQRT");
+    tc_sqrt = tcase_create("S21_SQRT");
     // tc_tan = tcase_create("S21_TAN");
 
     suite_add_tcase(s, tc_abs);
@@ -201,8 +207,8 @@ Suite *lib_suite(void) {
     suite_add_tcase(s, tc_sin);
     tcase_add_test(tc_sin, s21_sin_test);
 
-    // suite_add_tcase(s, tc_sqrt);
-    // tcase_add_test(tc_sqrt, s21_sqrt_test);
+    suite_add_tcase(s, tc_sqrt);
+    tcase_add_test(tc_sqrt, s21_sqrt_test);
 
     // suite_add_tcase(s, tc_tan);
     // tcase_add_test(tc_tan, s21_tan_test);

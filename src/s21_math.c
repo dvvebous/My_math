@@ -149,3 +149,13 @@ long double s21_pow(double base, double y) {
         result = 1 / (s21_exp(-y * s21_log(base)));
     return result;
 }
+
+long double s21_sqrt(double x) {
+  long double result = 0;
+  if (x < 0) {
+    result = NAN_NUM;
+  } else {
+    result = s21_pow(x, 0.5);
+  }
+  return result;
+}

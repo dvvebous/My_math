@@ -23,5 +23,6 @@ int s21_is_neg_inf(double x);
 int s21_isnan(double x);
 long double s21_cos(double x);
 int s21_findPower(double *x);
+long double s21_sqrt(double x);
 
 #endif
