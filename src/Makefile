@@ -10,7 +10,16 @@ TEST_OBJ = $(TEST_SRC:.c=.o)
 TEST_TARGET = s21_math_test
 TEST_LIBS = -lcheck -lm -lpthread
 
+# gcov_report:
+# 	gcc --coverage $(FLAGS) -c s21_math_test.c -o s21_math_test.o
+# 	gcc --coverage $(FLAGS) -c s21_math.c -o s21_math.o
+# 	gcc --coverage $(FLAGS) s21_math_test.o s21_math.o -lcheck -lm -lpthread  -o test
+# 	./test
+# 	gcov s21_math_test.c
+# 	gcov s21_math.c
+
 .PHONY: all clean
+
 
 all: $(TARGET) $(TEST_TARGET)
 

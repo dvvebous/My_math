@@ -11,11 +11,38 @@ long double s21_fabs(double x) {
 
 
 long double s21_ceil(double x) {
-    int count;
-    double y = x < 0 ? -x : x;
-    for (count = 0; count < y; count++) {
+  long double result = 0, number = 1;
+  if (S21_IS_INF(x) == 1 || S21_IS_NAN(x) == 1) {
+    result = x;
+  } else if (x < 0) {
+    while (x <= -1) {
+      number = -1;
+      while (x <= number) {
+        number *= 10;
+      }
+      if (number != -1) {
+        number /= 10;
+        result += number;
+      }
+      x -= number;
     }
-    return x < 0 ? -count + 1 : count;
+  } else if (x == 0) {
+    result = 0;
+  } else {
+    while (x >= 1) {
+      number = 1;
+      while (x > number) {
+        number *= 10;
+      }
+      if (number != 1) {
+        number /= 10;
+        result += number;
+      }
+      x -= number;
+    }
+    result += 1;
+  }
+  return result;
 }
 
 long double s21_exp(double x) {
@@ -44,9 +71,36 @@ long double s21_exp(double x) {
 }
 
 long double s21_floor(double x) {
-    return (x == (long long int)x) ? x :
-    (x > 0) ? (long double)(((long long int)x)) :
-    (x < 0) ? (long double)((long long int)x) - 1 : 0;
+  long double result = 0, number = 1;
+  if (S21_IS_INF(x) == 1 || S21_IS_NAN(x) == 1) {
+    result = x;
+  } else if (x < 0) {
+    while (x <= -1) {
+      number = -1;
+      while (x < number) {
+        number *= 10;
+      }
+      if (number != -1) {
+        number /= 10;
+        result += number;
+      }
+      x -= number;
+    }
+    result -= 1;
+  } else {
+    while (x >= 1) {
+      number = 1;
+      while (x >= number) {
+        number *= 10;
+      }
+      if (number != 1) {
+        number /= 10;
+        result += number;
+      }
+      x -= number;
+    }
+  }
+  return result;
 }
 
 long double s21_fmod(double x, double y)
@@ -141,21 +195,20 @@ long double s21_log(double x) {
     return res;
 }
 
-long double s21_pow(double base, double y) {  
-    long double result = 0;
-    if (y == 0) result = 1.0L;
-    else if (y > 0) result = s21_exp(y * s21_log(base));
-    else
-        result = 1 / (s21_exp(-y * s21_log(base)));
-    return result;
+long double s21_pow(double base, double exp) {
+    if (!exp) return 1;
+    if (base == NEGATIVE_INF_NUM && exp == NEGATIVE_INF_NUM) return 0;
+    if (base == NEGATIVE_INF_NUM && exp == POSITIVE_INF_NUM) return POSITIVE_INF_NUM;
+    if (base < 0 && exp != (long long int)exp) return NAN_NUM;
+    long double res = 0;
+    int sign = base < 0 ? -1 : 1;
+    res = s21_exp(exp * s21_log(base * sign));
+    if (s21_fmod(exp, 2)) res *= sign;
+    return res;
 }
 
 long double s21_sqrt(double x) {
-  long double result = 0;
-  if (x < 0) {
-    result = NAN_NUM;
-  } else {
-    result = s21_pow(x, 0.5);
-  }
-  return result;
+  if (S21_IS_NAN(x) || x == NEGATIVE_INF_NUM || x < 0) return NAN_NUM;
+  if (x == POSITIVE_INF_NUM || x == 0) return (long double)x;
+  return s21_pow(x, 0.5);
 }

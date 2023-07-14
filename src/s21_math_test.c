@@ -8,6 +8,7 @@ START_TEST(s21_abs_test) {
     ck_assert_int_eq(s21_abs(2), abs(2));
     ck_assert_int_eq(s21_abs(-1), abs(-1));
     ck_assert_int_eq(s21_abs(0), abs(0));
+
     ck_assert_int_eq(s21_abs((int)INFINITY),abs((int)INFINITY));
     ck_assert_int_eq(s21_abs((int)-INFINITY),abs((int)-INFINITY));
     ck_assert_int_eq(s21_abs((int)NAN),abs((int)NAN));
@@ -32,11 +33,18 @@ END_TEST
 // END_TEST
 
 START_TEST(s21_ceil_test) {
+    double int_1 = NAN;
+    double int_2 = -INFINITY;
+
     ck_assert_ldouble_eq(s21_ceil(-13.7), ceil(-13.7));
     ck_assert_ldouble_eq(s21_ceil(0.5), ceil(0.5));
     ck_assert_ldouble_eq(s21_ceil(2.56687), ceil(2.56687));
     ck_assert_ldouble_eq(s21_ceil(-134.98879), ceil(-134.98879));
     ck_assert_ldouble_eq(s21_ceil(1.0), ceil(1.0));
+    ck_assert_ldouble_eq(s21_ceil(-5.0), ceil(-5.0));
+
+    ck_assert_float_eq(isnan(s21_ceil(int_1)), isnan(ceil(int_1)));
+    ck_assert_float_eq(s21_ceil(int_2), ceil(int_2));
 }
 END_TEST
 
@@ -47,6 +55,10 @@ START_TEST(s21_cos_test) {
     ck_assert_float_eq(s21_cos(0.657), cos(0.657));
     ck_assert_float_eq(s21_cos(-1.67), cos(-1.67));
     ck_assert_float_eq(s21_cos(22.3), cos(22.3));
+    
+    ck_assert_int_eq(s21_cos((int)INFINITY), cos((int)INFINITY));
+    ck_assert_int_eq(s21_cos((int)-INFINITY), cos((int)-INFINITY));
+    ck_assert_int_eq(s21_cos((int)NAN), cos((int)NAN));
 }
 END_TEST
 
@@ -57,76 +69,138 @@ START_TEST(s21_exp_test) {
     ck_assert_float_eq(s21_exp(0.657), exp(0.657));
     ck_assert_float_eq(s21_exp(-1.67), exp(-1.67));
     ck_assert_float_eq(s21_exp(22.3), exp(22.3));
+
+    ck_assert_int_eq(s21_exp((int)INFINITY), exp((int)INFINITY));
+    ck_assert_int_eq(s21_exp((int)-INFINITY), exp((int)-INFINITY));
+    ck_assert_int_eq(s21_exp((int)NAN), exp((int)NAN));
 }
 END_TEST
 
 
 START_TEST(s21_fabs_test) {
-    ck_assert_int_eq(s21_fabs(-1.5),fabs(-1.5));
-    ck_assert_int_eq(s21_fabs(0.0),fabs(0.0));
-    ck_assert_int_eq(s21_fabs(0.5), fabs(0.5));
-    ck_assert_int_eq(s21_fabs(1.17394757593),fabs(1.17394757593));
-    ck_assert_int_eq(s21_fabs(36.5), fabs(36.5));
+    double int_1 = NAN;
+    double int_2 = -INFINITY;
+
+    ck_assert_double_eq(s21_fabs(-1.5),fabs(-1.5));
+    ck_assert_double_eq(s21_fabs(0.0),fabs(0.0));
+    ck_assert_double_eq(s21_fabs(0.5), fabs(0.5));
+    ck_assert_double_eq(s21_fabs(1.17394757593),fabs(1.17394757593));
+    ck_assert_double_eq(s21_fabs(36.5), fabs(36.5)); 
+
+    ck_assert_float_eq(isnan(s21_fabs(int_1)), isnan(fabs(int_1)));
+    ck_assert_float_eq(s21_fabs(int_2), fabs(int_2));
 }
 END_TEST
 
+
 START_TEST(s21_floor_test) {
+    double int_1 = NAN;
+    double int_2 = -INFINITY;
+    double int_3 = INFINITY;
+
     ck_assert_ldouble_eq(s21_floor(-13.7), floor(-13.7));
     ck_assert_ldouble_eq(s21_floor(0.5), floor(0.5));
     ck_assert_ldouble_eq(s21_floor(2.56687), floor(2.56687));
     ck_assert_ldouble_eq(s21_floor(-134.98879), floor(-134.98879));
     ck_assert_ldouble_eq(s21_floor(1.0), floor(1.0));
+    ck_assert_ldouble_eq(s21_floor(-5.0), floor(-5.0));
+
+    ck_assert_int_eq(s21_floor(int_1), floor(int_1));
+    ck_assert_int_eq(s21_floor(int_2), floor(int_2));
+    ck_assert_int_eq(s21_floor(int_3), floor(int_3));
 }
 END_TEST
 
 START_TEST(s21_fmod_test) {
+    double int_1 = NAN;
+    double int_2 = -INFINITY;
+    double int_3 = INFINITY;
+
     ck_assert_ldouble_eq(s21_fmod(-3.15, 2.5), fmod(-3.15, 2.5));
     ck_assert_ldouble_eq(s21_fmod(11.213, 1.5), fmod(11.213, 1.5));
     ck_assert_int_eq(s21_fmod(-1000.21313, 3.23), fmod(-1000.21313, 3.23));
     ck_assert_ldouble_eq(s21_fmod(34434.89898, 2.5), fmod(34434.89898, 2.5));
     ck_assert_ldouble_eq(s21_fmod(0, 2.5), fmod(0, 2.5));
     ck_assert_ldouble_eq(s21_fmod(2.5, 1.8), fmod(2.5, 1.8));
+
+    ck_assert_int_eq(s21_fmod(int_1, int_1), fmod(int_1, int_1));
+    ck_assert_int_eq(s21_fmod(int_2, int_2), fmod(int_2, int_2));
+    ck_assert_int_eq(s21_fmod(int_1, int_2), fmod(int_1, int_2));
+    ck_assert_int_eq(s21_fmod(int_2, int_3), fmod(int_2, int_3));
 }
 END_TEST
 
 
 START_TEST(s21_log_test) {
-    ck_assert_int_eq(s21_log(-3.15), log(-3.15));
-    ck_assert_float_eq(s21_log(11.213), log(11.213));
-    ck_assert_int_eq(s21_log(-1000.21313), log(-1000.21313));
-    ck_assert_float_eq(s21_log(34434.89898), log(34434.89898));
+    double int_1 = NAN;
+    double int_2 = -INFINITY;
+    double int_3 = INFINITY;
+
+    ck_assert_ldouble_eq(s21_log(-3.15), log(-3.15));
+    ck_assert_ldouble_eq(s21_log(11.213), log(11.213));
+    ck_assert_ldouble_eq(s21_log(-1000.21313), log(-1000.21313));
+    ck_assert_ldouble_eq(s21_log(34434.89898), log(34434.89898));
     ck_assert_ldouble_eq(s21_log(0.0), log(0.0));
-    ck_assert_float_eq(s21_log(2.5), log(2.5));
+    ck_assert_ldouble_eq(s21_log(2.5), log(2.5));
+
+    ck_assert_int_eq(s21_log(int_1), log(int_1));
+    ck_assert_int_eq(s21_log(int_2), log(int_2));
+    ck_assert_int_eq(s21_log(int_2), log(int_3));
 }
 END_TEST
 
 START_TEST(s21_pow_test) {
+    double int_1 = NAN;
+    double int_2 = -INFINITY;
+    double int_3 = INFINITY;
+
     ck_assert_float_eq(s21_fmod(-3.15, 2.5), fmod(-3.15, 2.5));
     ck_assert_float_eq(s21_fmod(11.213, 1.5), fmod(11.213, 1.5));
     ck_assert_int_eq(s21_fmod(-1000.21313, 3.23), fmod(-1000.21313, 3.23));
     ck_assert_float_eq(s21_fmod(34434.89898, 2.5), fmod(34434.89898, 2.5));
     ck_assert_float_eq(s21_fmod(0, 2.5), fmod(0, 2.5));
     ck_assert_float_eq(s21_fmod(2.5, 1.8), fmod(2.5, 1.8));
+
+    ck_assert_int_eq(s21_pow(int_1, int_1), pow(int_1, int_1));
+    ck_assert_int_eq(s21_pow(int_2, int_2), pow(int_2, int_2));
+    ck_assert_int_eq(s21_pow(int_3, int_3), pow(int_3, int_3));
+    ck_assert_int_eq(s21_pow(int_1, int_2), pow(int_1, int_2));
 }
 END_TEST
 
 START_TEST(s21_sin_test) {
+    double int_1 = NAN;
+    double int_2 = -INFINITY;
+    double int_3 = INFINITY;
+
     ck_assert_float_eq(s21_sin(-1.56), sin(-1.56));
     ck_assert_float_eq(s21_sin(0.0), sin(0.0));
     ck_assert_float_eq(s21_sin(3.14), sin(3.14));
     ck_assert_float_eq(s21_sin(0.657), sin(0.657));
     ck_assert_float_eq(s21_sin(-1.67), sin(-1.67));
     ck_assert_float_eq(s21_sin(13.3), sin(13.3));
+
+    ck_assert_int_eq(s21_sin(int_1), sin(int_1));
+    ck_assert_int_eq(s21_sin(int_2), sin(int_2));
+    ck_assert_int_eq(s21_sin(int_3), sin(int_3));
 }
 END_TEST
 
 START_TEST(s21_sqrt_test) {
-    ck_assert_float_eq(sqrt(0.0), s21_sqrt(0.0));
-    ck_assert_float_eq(sqrt(1.0), s21_sqrt(1.0));
-    ck_assert_float_eq(sqrt(3.14), s21_sqrt(3.14));
-    ck_assert_float_eq(sqrt(6.28), s21_sqrt(6.28));
-    ck_assert_float_eq(sqrt(2.2343), s21_sqrt(2.2343));
+    double int_1 = NAN;
+    double int_2 = -INFINITY;
+    double int_3 = INFINITY;
+
+    ck_assert_ldouble_eq(sqrt(0.0), s21_sqrt(0.0));
+    ck_assert_ldouble_eq(sqrt(1.0), s21_sqrt(1.0));
+    ck_assert_int_eq(sqrt(3.14), s21_sqrt(3.14));
+    ck_assert_ldouble_eq(sqrt(6.28), s21_sqrt(6.28));
+    ck_assert_ldouble_eq(sqrt(2.2343), s21_sqrt(2.2343));
     ck_assert_int_eq(sqrt(-123), s21_sqrt(-123));
+
+    ck_assert_int_eq(s21_log(int_1), log(int_1));
+    ck_assert_int_eq(s21_log(int_2), log(int_2));
+    ck_assert_int_eq(s21_log(int_2), log(int_3));
 }
 END_TEST
 

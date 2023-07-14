@@ -7,7 +7,8 @@
 #define NEGATIVE_INF_NUM -1.0 / 0.0
 #define NAN_NUM 0.0 / 0.0
 #define EPS_NUM 1e-16
-
+#define S21_IS_INF(x) (x == POSITIVE_INF_NUM || x == NEGATIVE_INF_NUM)
+#define S21_IS_NAN(x) (x != x)
 
 int s21_abs(int x);
 long double s21_fabs(double x);
