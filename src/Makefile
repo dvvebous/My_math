@@ -1,53 +1,12 @@
-# CC = gcc
-# CFLAGS = -Wall -Werror -Wextra
-
-# SRC = s21_math.c
-# OBJ = $(SRC:.c=.o)
-# TARGET = s21_math
-
-# TEST_SRC = s21_math_test.c
-# TEST_OBJ = $(TEST_SRC:.c=.o)
-# TEST_TARGET = s21_math_test
-# TEST_LIBS = -lcheck -lm -lpthread
-
-# s21_math.a: s21_math.o
-# 	$(CC) -c $(SRC)
-# 	ar rcs s21_math.a $(OBJ)
-
-# gcov_report: s21_math.a 
-# 	$(CC) $(CFLAGS) --coverage s21_math_test.c s21_math.c s21_math.a  -o gcov_test $(TEST_LIBS)
-# 	chmod +x *
-# 	./gcov_test
-# 	gcov -t "gcov_test" -o gcov_test.info --no-external -c -d .
-# 	genhtml -o  gcov_test.info
-# 	index.html
-
-# gcov_report: add_gcover_flag
-# 	$(CC) &
-
-# .PHONY: all clean
-
-
-# all: $(TARGET) $(TEST_TARGET)
-
-# $(TARGET): $(OBJ)
-# 	$(CC) $(CFLAGS) $(OBJ) -o $(TARGET)
-
-# $(TEST_TARGET): $(TEST_OBJ) $(OBJ)
-# 	$(CC) $(CFLAGS) $(TEST_OBJ) $(OBJ) $(TEST_LIBS) -o $(TEST_TARGET)
-
-# clean:
-# 	rm -rf $(TARGET) $(TEST_TARGET) $(OBJ) $(TEST_OBJ)
-# 	rm -f *.gc*
-
-.PHONY: all clean
-
 CC=gcc
 CFLAGS=-Wall -Wextra -Werror
 LDFLAGS=$(shell pkg-config --cflags --libs check)
 GCOVFLAGS=-fprofile-arcs -ftest-coverage
+TEST_LIBS = -lcheck -lm -lpthread
 
-all: s21_math.a
+.PHONY: all clean
+
+all: s21_math.a test gcov_report
 
 s21_math.a:
 	$(CC) $(CFLAGS) -c s21_math.c
@@ -59,6 +18,12 @@ clean:
 
 test:
 	$(CC) $(CFLAGS) $(LDFLAGS) s21_math.c tests/*.c
+
+style_check:
+	clang-format --style=Google -n $(SRCS) *.c *.h
+	
+style:
+	clang-format --style=Google -i $(SRCS) *.c *.h
 
 gcov_report:
 	$(CC) $(CFLAGS) $(LDFLAGS) $(GCOVFLAGS) s21_math.c tests/*.c -o gcov_main
