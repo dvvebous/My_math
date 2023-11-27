@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=-Wall -Wextra -Werror
 LDFLAGS=$(shell pkg-config --cflags --libs check)
 GCOVFLAGS=-fprofile-arcs -ftest-coverage
-TEST_LIBS = -lcheck -lm -lpthread
+TEST_LIBS=-lcheck -lm -lpthread
 
 .PHONY: all clean
 
@@ -14,19 +14,19 @@ s21_math.a:
 	ranlib s21_math.a
 	
 clean:
-	-rm -rf gcov_report/ *.o *.html *.gcda *.gcno *.css *.a *.gcov *.info *.out *.cfg *.txt
+	-rm -rf gcov_report/ *.o *.html *.gcda *.gcno *.css *.a *.gcov *.info *.out *.cfg *.txt gcov_main
 
 test:
-	$(CC) $(CFLAGS) $(LDFLAGS) s21_math.c tests/*.c
+	$(CC) $(CFLAGS)  s21_math.c tests/*.c $(LDFLAGS)
 
 style_check:
-	clang-format --style=Google -n $(SRCS) *.c *.h
+	clang-format --style=Google -n *.c *.h
 	
 style:
-	clang-format --style=Google -i $(SRCS) *.c *.h
+	clang-format --style=Google -i *.c *.h
 
 gcov_report:
-	$(CC) $(CFLAGS) $(LDFLAGS) $(GCOVFLAGS) s21_math.c tests/*.c -o gcov_main
+	$(CC) $(CFLAGS)  $(GCOVFLAGS) s21_math.c tests/*.c -o gcov_main $(LDFLAGS)
 	./gcov_main
 	lcov --capture --directory . --output-file coverage.info
 	genhtml coverage.info --output-directory gcov_report
